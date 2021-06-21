@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>r</title>
+</head>
+
+<body>
+    <span id='pirce2'><%- stock_price %></span><br>
+    <span id='pirce'><%- stock_price %></span>
+
+
+</body>
+
+<!-- <script src="ejs.min.js"></script> -->
+<script>
+
+
+
+
+
+    function r1() {
+
+        let url = '/api/fetch_data';
+        var fetchData = fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+         
+
+            body: JSON.stringify({
+                stock_number: <%= stock_number %> ,
+                password: '12345678'
+            })
+        }).then((response) => {
+        
+            return response.json();
+        }).then((jsonData) => {
+           
+            return jsonData;
+        }).catch((err) => {
+            console.log('錯誤:', err);
+        })
+
+        return fetchData;
+    }
+
+
+
+    async function reportDog() {
+
+        setInterval(async () => {
+
+            var data = await r1();
+         
+            document.getElementById('pirce').innerHTML = `${data[0].current_price} : ${data[0].ups_downs}`
+            document.getElementById('pirce2').innerHTML = `${data[1].current_price} : ${data[1].ups_downs}`
+      
+        }, 12000 )
+    }
+
+ 
+    reportDog()
+
+
+
+
+
+</script>
+
+</html>
